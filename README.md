@@ -140,5 +140,5 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [downloads-href]: https://packagist.org/packages/kiwilan/sentinel-laravel
 [license-src]: https://img.shields.io/github/license/kiwilan/sentinel-laravel.svg?style=flat-square&colorA=18181B&colorB=777BB4
 [license-href]: https://github.com/kiwilan/sentinel-laravel/blob/main/README.md
-[codecov-src]: https://codecov.io/gh/kiwilan/sentinel-laravel/branch/main/graph/badge.svg?token=P9XIK2KV9G
+[codecov-src]: https://codecov.io/gh/kiwilan/sentinel-laravel/branch/main/graph/badge.svg?token=hytpoIyU92
 [codecov-href]: https://codecov.io/gh/kiwilan/sentinel-laravel
