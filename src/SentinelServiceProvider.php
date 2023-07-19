@@ -2,7 +2,8 @@
 
 namespace Kiwilan\Sentinel;
 
-use Kiwilan\Sentinel\Commands\SentinelCommand;
+use Kiwilan\Sentinel\Commands\SentinelInstallCommand;
+use Kiwilan\Sentinel\Commands\SentinelTestCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -18,6 +19,7 @@ class SentinelServiceProvider extends PackageServiceProvider
         $package
             ->name('sentinel')
             ->hasConfigFile()
-            ->hasCommand(SentinelCommand::class);
+            ->hasCommand(SentinelInstallCommand::class)
+            ->hasCommand(SentinelTestCommand::class);
     }
 }

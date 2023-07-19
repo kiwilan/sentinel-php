@@ -1,12 +1,14 @@
 {
-    "name": "kiwilan/sentinel-php",
-    "description": "This is my package sentinel-php",
+    "name": "kiwilan/sentinel-laravel",
+    "description": "This is my package sentinel-laravel",
+    "version": "0.0.1",
     "keywords": [
         "kiwilan",
         "laravel",
-        "sentinel-php"
+        "sentinel",
+        "php"
     ],
-    "homepage": "https://github.com/kiwilan/sentinel-php",
+    "homepage": "https://github.com/kiwilan/sentinel-laravel",
     "license": "MIT",
     "authors": [
         {

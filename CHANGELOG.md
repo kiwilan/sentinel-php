@@ -1,3 +1,3 @@
 # Changelog
 
-All notable changes to `sentinel-php` will be documented in this file.
+All notable changes to `sentinel-laravel` will be documented in this file.

@@ -4,11 +4,11 @@ namespace Kiwilan\Sentinel\Commands;
 
 use Illuminate\Console\Command;
 
-class SentinelCommand extends Command
+class SentinelInstallCommand extends Command
 {
-    public $signature = 'sentinel-php';
+    public $signature = 'sentinel:install';
 
-    public $description = 'My command';
+    public $description = 'Install Sentinel package';
 
     public function handle(): int
     {

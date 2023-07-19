@@ -2,7 +2,7 @@
 
 namespace Kiwilan\Sentinel;
 
-use App\Exceptions\LogHandler;
+use Kiwilan\Sentinel\Log\LogHandler;
 use Throwable;
 
 class Sentinel
