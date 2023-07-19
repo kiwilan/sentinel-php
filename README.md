@@ -128,7 +128,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [php-version-src]: https://img.shields.io/static/v1?style=flat-square&label=PHP&message=v8.1&color=777BB4&logo=php&logoColor=ffffff&labelColor=18181b
 [php-version-href]: https://www.php.net/
-[laravel-version-src]: https://img.shields.io/static/v1?style=flat-square&label=Laravel&message=v9-v10&color=FF2D20&logo=laravel&logoColor=ffffff&labelColor=18181b
+[laravel-version-src]: https://img.shields.io/static/v1?style=flat-square&label=Laravel&message=v10&color=FF2D20&logo=laravel&logoColor=ffffff&labelColor=18181b
 [laravel-version-href]: https://laravel.com/
 [version-src]: https://img.shields.io/packagist/v/kiwilan/sentinel-laravel.svg?style=flat-square&colorA=18181B&colorB=777BB4
 [version-href]: https://packagist.org/packages/kiwilan/sentinel-laravel
