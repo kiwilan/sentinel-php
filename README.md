@@ -33,15 +33,9 @@ This is the contents of the published config file:
 
 ```php
 return [
-  'enabled' => env('SENTINEL_ENABLED', false),
+  'enabled' => env('SENTINEL_ENABLED', true),
   'host' => env('SENTINEL_HOST', 'http://app.sentinel.test'),
   'token' => env('SENTINEL_TOKEN'),
-
-  'notifications' => [
-    'enabled' => env('SENTINEL_NOTIFICATIONS_ENABLED', false),
-    'service' => env('SENTINEL_NOTIFICATION_SERVICE', 'discord'),
-    'token' => env('SENTINEL_NOTIFICATION_TOKEN'),
-  ],
 ];
 ```
 
@@ -76,7 +70,7 @@ class Handler extends ExceptionHandler
   public function register(): void
   {
     $this->reportable(function (Throwable $e) {
-      Sentinel::handle($e);
+      \Kiwilan\Sentinel\Sentinel::make($e);
     });
   }
 }
@@ -95,7 +89,7 @@ You can verify your installation by throwing an exception from a route or contro
 For example, in `routes/web.php`:
 
 ```php
-Route::get('/debug-sentry', function () {
+Route::get('/debug-sentinel', function () {
   throw new \Exception('Sentinel error!');
 });
 ```

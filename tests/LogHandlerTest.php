@@ -10,9 +10,8 @@ it('can generate log handler', function () {
     Sentinel::make($exception, dotenv()['token']);
 
     expect($error)->toBeInstanceOf(LogHandler::class);
-    expect(true)->toBeTrue();
 });
 
 it('can fail log handler', function () {
-    expect(fn () => Sentinel::make(new Exception('This is a test exception', 500)))->toThrow(Exception::class);
+    expect(fn () => Sentinel::make(new Exception('This is a test exception', 500), token: ''))->toThrow(Exception::class);
 });
