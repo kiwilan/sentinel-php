@@ -109,7 +109,8 @@ class Sentinel
         $this->message = $message['message'] ?? $json;
 
         if ($this->status !== 201 && $this->status !== 200) {
-            throw new Exception("Sentinel error {$this->status}: {$this->message}");
+            // throw new Exception("Sentinel error {$this->status}: {$this->message}");
+            throw new Exception("Sentinel error {$json}");
         }
 
         curl_close($curl);
