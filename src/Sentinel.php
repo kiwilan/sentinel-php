@@ -38,6 +38,10 @@ class Sentinel
         $error = LogHandler::make($e);
         $user = $self->user();
 
+        if ($self->token === null) {
+            throw new Exception('Sentinel token is not set');
+        }
+
         $data = $self->json($error, $user);
         $res = $self->send($data);
 

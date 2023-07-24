@@ -13,5 +13,5 @@ it('can generate log handler', function () {
 });
 
 it('can fail log handler', function () {
-    expect(fn () => Sentinel::make(new Exception('This is a test exception', 500), token: ''))->toThrow(Exception::class);
+    expect(fn () => Sentinel::make(new Exception('This is a test exception', 500)))->toThrow(Exception::class);
 });
