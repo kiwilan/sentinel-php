@@ -22,9 +22,13 @@ class LogMessage
             return null;
         }
 
+        $file = $throwable->getFile();
+        $file = str_replace(base_path(), '', $file);
+        $file = substr($file, 1);
+
         return new self(
             $throwable->getCode(),
-            $throwable->getFile(),
+            $file,
             $throwable->getLine(),
             $throwable->getMessage(),
             $throwable->getTrace(),

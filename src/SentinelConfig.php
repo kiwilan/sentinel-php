@@ -6,7 +6,7 @@ class SentinelConfig
 {
     public static function enabled(): bool
     {
-        return config('sentinel.enabled') ?? false;
+        return config('sentinel.enabled') ?? true;
     }
 
     public static function host(): string
@@ -17,25 +17,5 @@ class SentinelConfig
     public static function token(): string
     {
         return config('sentinel.token');
-    }
-
-    public static function notificationsEnabled(): bool
-    {
-        return config('sentinel.notifications.enabled') ?? false;
-    }
-
-    public static function notificationsService(): string
-    {
-        return config('sentinel.notifications.service') ?? 'discord';
-    }
-
-    public static function notificationsToken(): string
-    {
-        return config('sentinel.notifications.token');
-    }
-
-    public static function notificationsEmail(): string
-    {
-        return config('sentinel.notifications.email');
     }
 }

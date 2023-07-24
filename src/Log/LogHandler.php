@@ -14,8 +14,8 @@ class LogHandler
         readonly protected string $method,
         readonly protected string $userAgent,
         readonly protected string $ip,
+        readonly protected string $basePath,
         readonly protected ?LogMessage $current = null,
-        readonly protected ?LogMessage $previous = null,
     ) {
     }
 
@@ -29,8 +29,8 @@ class LogHandler
             request()->method(),
             request()->userAgent(),
             request()->ip(),
+            base_path(),
             LogMessage::make($throwable),
-            LogMessage::make($throwable->getPrevious()),
         );
     }
 
@@ -69,13 +69,13 @@ class LogHandler
         return $this->ip;
     }
 
+    public function basePath(): string
+    {
+        return $this->basePath;
+    }
+
     public function current(): ?LogMessage
     {
         return $this->current;
-    }
-
-    public function previous(): ?LogMessage
-    {
-        return $this->previous;
     }
 }
