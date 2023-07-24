@@ -41,7 +41,7 @@ class SentinelTestCommand extends Command
         $this->info("Token: {$token}");
 
         $this->info('Testing connection to Sentinel...');
-        $response = Sentinel::make(new Exception('Test exception', 500));
+        $response = Sentinel::make(new Exception('Test exception', 500), $token);
 
         $valid = $response['message'] ?? null;
 
