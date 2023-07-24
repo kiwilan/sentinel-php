@@ -113,8 +113,9 @@ class Sentinel
         }
 
         curl_close($curl);
+        $json = json_decode($json, true);
 
-        return json_decode($json, true);
+        return $json ? $json : [];
 
     }
 
