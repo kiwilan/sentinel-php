@@ -31,5 +31,8 @@ it('can install', function () {
     unlink($testHandler);
     copy(getcwd().'/tests/Media/Handler.php', $testHandler);
 
-    Artisan::call('sentinel:test', []);
+    Artisan::call('sentinel:test', [
+        '--host' => $host,
+        '--token' => $token,
+    ]);
 })->with(['add', 'replace']);
