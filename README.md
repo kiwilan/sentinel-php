@@ -8,6 +8,7 @@
 [![GitHub Code Style Action Status][style-src]](style-href)
 [![Total Downloads][downloads-src]](downloads-href)
 [![License][license-src]][license-href]
+[![codecov][codecov-src]][codecov-href]
 
 PHP package for Laravel to send errors to [**Sentinel**](https://github.com/kiwilan/sentinel).
 
