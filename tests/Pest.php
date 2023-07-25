@@ -36,21 +36,28 @@ function deleteDotenv()
 function createDotenv()
 {
     deleteDotenv();
+    $baseDotenv = getcwd().'/.env';
     $dotenv = base_path('.env');
 
-    $host = dotenv()['host'];
-    $token = dotenv()['token'];
+    if (file_exists($dotenv)) {
+        unlink($dotenv);
+    }
+    copy($baseDotenv, $dotenv);
+    sleep(0.5);
 
-    $content = <<<EOT
-    SENTINEL_ENABLED=true
-    SENTINEL_HOST={$host}
-    SENTINEL_TOKEN={$token}
-    EOT;
+    // $host = dotenv()['host'];
+    // $token = dotenv()['token'];
 
-    file_put_contents($dotenv, $content);
+    // $content = <<<EOT
+    // SENTINEL_ENABLED=true
+    // SENTINEL_HOST={$host}
+    // SENTINEL_TOKEN={$token}
+    // EOT;
 
-    $dotenv = base_path('.env');
-    $content = file_get_contents($dotenv);
+    // file_put_contents($dotenv, $content);
 
-    dump($content);
+    // $dotenv = base_path('.env');
+    // $content = file_get_contents($dotenv);
+
+    // dump($content);
 }
