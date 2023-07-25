@@ -7,6 +7,9 @@ uses(TestCase::class)->in(__DIR__);
 
 function dotenv(): array
 {
+    $dotenv = file_get_contents(getcwd().'/.env');
+    dump($dotenv);
+
     $dotenv = Dotenv::createMutable(getcwd());
     $data = $dotenv->load();
     dump($data);
