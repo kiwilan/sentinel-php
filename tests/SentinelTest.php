@@ -10,11 +10,15 @@ it('can generate log handler', function () {
     $exception = new \Exception('This is a test exception', 500);
     // $error = LogHandler::make($exception);
 
-    $instance = Sentinel::register($exception);
+    $response = Sentinel::register($exception);
+    dump($response);
     // dump($instance);
 
-    expect($instance)->toBeArray();
-    expect($instance['message'])->toBe('success');
+    $status = $response['status'] ?? null;
+    $message = $response['json']['message'] ?? null;
+
+    expect($response)->toBeArray();
+    expect($message)->toBe('success');
 });
 
 // it('can fail log handler', function () {

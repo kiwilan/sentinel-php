@@ -18,6 +18,7 @@ class Sentinel
         protected string $message = 'Unknown error',
         protected ?LogHandler $error = null,
         protected ?string $user = null,
+        protected string $method = 'guzzle',
     ) {
     }
 
@@ -108,6 +109,77 @@ class Sentinel
 
     private function send(): array
     {
+        if ($this->method === 'curl') {
+            return $this->postWithCurl();
+        }
+
+        if ($this->method === 'stream') {
+            return $this->postWithStream();
+        }
+
+        return $this->postWithGuzzle();
+    }
+
+    private function postWithGuzzle(): array
+    {
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->post($this->host, [
+            'headers' => [
+                'Content-type' => 'application/json',
+                'Accept' => 'application/json',
+            ],
+            'json' => $this->payload,
+        ]);
+
+        $this->status = $response->getStatusCode();
+        $body = $response->getBody()->getContents();
+        $this->message = $body;
+
+        if ($this->status !== 201 && $this->status !== 200 && $this->status !== 0) {
+            throw new Exception("Sentinel error {$this->status}: {$this->message}");
+        }
+
+        return [
+            'headers' => $response->getHeaders(),
+            'status' => $this->status,
+            'body' => $body,
+            'json' => json_decode($body, true),
+        ];
+    }
+
+    private function postWithStream(): array
+    {
+        $options = [
+            'http' => [
+                'header' => "Content-Type: application/json\r\n".
+                 "Accept: application/json\r\n",
+                'method' => 'POST',
+                'content' => json_encode($this->payload),
+            ],
+        ];
+
+        $context = stream_context_create($options);
+        $res = file_get_contents($this->host, false, $context);
+
+        $status = $http_response_header[0];
+        $this->status = (int) substr($status, 9, 3);
+        $this->message = $res;
+
+        if ($res === false) {
+            throw new Exception("Sentinel error {$this->status}: {$this->message}");
+        }
+
+        return [
+            'headers' => [],
+            'status' => $this->status,
+            'body' => $res,
+            'json' => json_decode($res, true),
+        ];
+    }
+
+    private function postWithCurl(): array
+    {
         $content = json_encode($this->payload);
 
         $curl = curl_init($this->host);
@@ -123,6 +195,7 @@ class Sentinel
         $json = curl_exec($curl);
 
         $this->status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $headers = curl_getinfo($curl, CURLINFO_HEADER_OUT);
         $message = json_decode($json, true);
         $this->message = $message['message'] ?? $json;
 
@@ -133,8 +206,12 @@ class Sentinel
         curl_close($curl);
         $json = json_decode($json, true);
 
-        return $json ? $json : [];
-
+        return [
+            'headers' => $headers,
+            'status' => $this->status,
+            'message' => $this->message,
+            'json' => $json,
+        ];
     }
 
     private function setUser(): ?string
