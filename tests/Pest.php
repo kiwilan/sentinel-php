@@ -9,6 +9,7 @@ function dotenv(): array
 {
     $dotenv = Dotenv::createMutable(getcwd());
     $data = $dotenv->load();
+    dump($data);
 
     $enabled = $data['SENTINEL_ENABLED_TEST'] ?? true;
     $host = $data['SENTINEL_HOST_TEST'] ?? 'http://app.sentinel.test';
@@ -38,6 +39,9 @@ function createDotenv()
 
     $host = dotenv()['host'];
     $token = dotenv()['token'];
+
+    dump($host);
+    dump($token);
 
     $content = <<<EOT
     SENTINEL_ENABLED=true
