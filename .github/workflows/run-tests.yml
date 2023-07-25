@@ -48,8 +48,8 @@ jobs:
         run: |
           touch .env
           echo SENTINEL_ENABLED_TEST=true >> .env
-          echo SENTINEL_HOST_TEST=https://sentinel.git-projects.xyz >> .env
-          echo SENTINEL_TOKEN_TEST=23c9f49f-cab1-48f0-af6d-8d4987045098 >> .env
+          echo SENTINEL_HOST_TEST=${{ secrets.TEST_SENTINEL_HOST }} >> .env
+          echo SENTINEL_TOKEN_TEST=${{ secrets.TEST_SENTINEL_TOKEN }} >> .env
 
       - name: Execute tests
         run: vendor/bin/pest --ci
