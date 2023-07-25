@@ -20,3 +20,30 @@ function dotenv(): array
         'token' => $token,
     ];
 }
+
+function deleteDotenv()
+{
+    $dotenv = base_path('.env');
+
+    if (file_exists($dotenv)) {
+        $content = file_get_contents($dotenv);
+        unlink($dotenv);
+    }
+}
+
+function createDotenv()
+{
+    deleteDotenv();
+    $dotenv = base_path('.env');
+
+    $host = dotenv()['host'];
+    $token = dotenv()['token'];
+
+    $content = <<<EOT
+    SENTINEL_ENABLED=true
+    SENTINEL_HOST={$host}
+    SENTINEL_TOKEN={$token}
+    EOT;
+
+    file_put_contents($dotenv, $content);
+}

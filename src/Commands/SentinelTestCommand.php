@@ -4,7 +4,7 @@ namespace Kiwilan\Sentinel\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use Kiwilan\Sentinel\Sentinel;
+use Kiwilan\Sentinel\Facades\Sentinel;
 
 class SentinelTestCommand extends Command
 {
@@ -41,7 +41,7 @@ class SentinelTestCommand extends Command
         $this->info("Token: {$token}");
 
         $this->info('Testing connection to Sentinel...');
-        $response = Sentinel::make(new Exception('Test exception', 500), $token);
+        $response = Sentinel::register(new Exception('Test exception'));
 
         $valid = $response['message'] ?? null;
 

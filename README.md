@@ -61,7 +61,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
-use Kiwilan\Sentinel;
+use Kiwilan\Sentinel\Facades\Sentinel;
 
 class Handler extends ExceptionHandler
 {
@@ -71,7 +71,7 @@ class Handler extends ExceptionHandler
   public function register(): void
   {
     $this->reportable(function (Throwable $e) {
-      \Kiwilan\Sentinel\Sentinel::make($e);
+      Sentinel::register($e);
     });
   }
 }

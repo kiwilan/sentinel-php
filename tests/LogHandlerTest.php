@@ -1,17 +1,30 @@
 <?php
 
 use Kiwilan\Sentinel\Log\LogHandler;
-use Kiwilan\Sentinel\Sentinel;
 
 it('can generate log handler', function () {
     $exception = new \Exception('This is a test exception', 500);
     $error = LogHandler::make($exception);
 
-    Sentinel::make($exception, dotenv()['token']);
-
     expect($error)->toBeInstanceOf(LogHandler::class);
-});
 
-// it('can fail log handler', function () {
-//     expect(fn () => Sentinel::make(new Exception('This is a test exception', 500)))->toThrow(Exception::class);
-// });
+    expect($error->app())->toBe('Laravel');
+    expect($error->env())->toBe('testing');
+    expect($error->isProduction())->toBeFalse();
+    expect($error->url())->toBe('http://localhost');
+    expect($error->method())->toBe('GET');
+    expect($error->userAgent())->toBe('Symfony');
+    expect($error->ip())->toBe('127.0.0.1');
+    expect($error->basePath())->toContain('vendor/orchestra/testbench-core/laravel');
+    expect($error->current())->toBeInstanceOf(\Kiwilan\Sentinel\Log\LogMessage::class);
+
+    $message = $error->current();
+
+    expect($message->code())->toBe(500);
+    expect($message->file())->toContain('tests/LogHandlerTest.php');
+    expect($message->line())->toBeInt();
+    expect($message->message())->toBe('This is a test exception');
+    expect($message->trace())->toBeArray();
+    expect($message->traceString())->toBeString();
+    expect($message->toArray())->toBeArray();
+});

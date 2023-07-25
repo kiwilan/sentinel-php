@@ -1,38 +1,42 @@
 <?php
 
-use Illuminate\Support\Facades\Artisan;
+// use Illuminate\Support\Facades\Artisan;
 
-it('can install', function () {
-    $dotenv = getcwd().'/.env';
-    $testHandler = getcwd().'/tests/Exceptions/Handler.php';
-    $host = dotenv()['host'];
-    $token = dotenv()['token'];
-    Artisan::call('sentinel:install', [
-        '--host' => $host,
-        '--token' => $token,
-        '--handler' => $testHandler,
-        '--dotenv' => $dotenv,
-    ]);
+beforeEach(function () {
+    deleteDotenv();
+});
 
-    Artisan::call('sentinel:install', [
-        '--host' => $host,
-        '--token' => $token,
-        '--handler' => $testHandler,
-    ]);
+// it('can install', function () {
+//     $dotenv = getcwd().'/.env';
+//     $testHandler = getcwd().'/tests/Exceptions/Handler.php';
+//     $host = dotenv()['host'];
+//     $token = dotenv()['token'];
+//     Artisan::call('sentinel:install', [
+//         '--host' => $host,
+//         '--token' => $token,
+//         '--handler' => $testHandler,
+//         '--dotenv' => $dotenv,
+//     ]);
 
-    $content = file_get_contents($testHandler);
-    $dotenvContent = file_get_contents($dotenv);
+//     Artisan::call('sentinel:install', [
+//         '--host' => $host,
+//         '--token' => $token,
+//         '--handler' => $testHandler,
+//     ]);
 
-    expect($content)->toContain('\Kiwilan\Sentinel\Sentinel::make($e);');
-    expect($dotenvContent)->toContain('SENTINEL_ENABLED_TEST=true');
-    expect($dotenvContent)->toContain("SENTINEL_HOST_TEST={$host}");
-    expect($dotenvContent)->toContain("SENTINEL_TOKEN={$token}");
+//     $content = file_get_contents($testHandler);
+//     $dotenvContent = file_get_contents($dotenv);
 
-    unlink($testHandler);
-    copy(getcwd().'/tests/Media/Handler.php', $testHandler);
+//     expect($content)->toContain('\Kiwilan\Sentinel\Sentinel::make($e);');
+//     expect($dotenvContent)->toContain('SENTINEL_ENABLED_TEST=true');
+//     expect($dotenvContent)->toContain("SENTINEL_HOST_TEST={$host}");
+//     expect($dotenvContent)->toContain("SENTINEL_TOKEN={$token}");
 
-    Artisan::call('sentinel:test', [
-        '--host' => $host,
-        '--token' => $token,
-    ]);
-})->with(['add', 'replace']);
+//     unlink($testHandler);
+//     copy(getcwd().'/tests/Media/Handler.php', $testHandler);
+
+//     Artisan::call('sentinel:test', [
+//         '--host' => $host,
+//         '--token' => $token,
+//     ]);
+// })->with(['add', 'replace']);

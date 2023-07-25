@@ -79,7 +79,7 @@ class SentinelInstallCommand extends Command
 
         $handler = str_replace(
             '$this->reportable(function (Throwable $e) {',
-            "\$this->reportable(function (Throwable \$e) {\n\t\t\t\\Kiwilan\\Sentinel\\Sentinel::make(\$e);",
+            "\$this->reportable(function (Throwable \$e) {\n\t\t\t\\Kiwilan\\Sentinel\\Facades\\Sentinel::register(\$e);",
             $handler
         );
 

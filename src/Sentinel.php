@@ -9,63 +9,50 @@ use Throwable;
 
 class Sentinel
 {
-    protected function __construct(
-        readonly protected ?string $token,
-        readonly protected string $host,
-        readonly protected bool $enabled,
-        protected int $status,
-        protected array $data,
-        protected string $message,
+    public function __construct(
+        protected ?string $token = null,
+        protected ?string $host = null,
+        protected bool $enabled = false,
+        protected int $status = 0,
+        protected array $payload = [],
+        protected string $message = 'Unknown error',
+        protected ?LogHandler $error = null,
+        protected ?string $user = null,
     ) {
     }
 
-    public static function make(Throwable $e, string $token = null): array|false
+    public static function make(): self
     {
         $baseURL = SentinelConfig::host();
+        $token = SentinelConfig::token();
         $self = new self(
-            token: $token ?? config('sentinel.token'),
+            token: $token,
             host: "{$baseURL}/api/logs",
             enabled: SentinelConfig::enabled(),
-            status: 0,
-            data: [],
-            message: '',
         );
+        // dump(env('SENTINEL_TOKEN'));
+        // dump(SentinelConfig::token());
+        // dump($self);
 
-        if (! $self->enabled) {
+        return $self;
+    }
+
+    public function register(Throwable $e): array|false
+    {
+        if (! $this->enabled) {
             return false;
         }
 
-        $error = LogHandler::make($e);
-        $user = $self->user();
+        $this->error = LogHandler::make($e);
+        $this->user = $this->setUser();
 
-        if ($self->token === null) {
+        if ($this->token === null) {
             throw new Exception('Sentinel token is not set');
         }
 
-        $data = $self->json($error, $user);
-        $res = $self->send($data);
+        $this->payload = $this->setPayload();
 
-        return $res;
-    }
-
-    public function status(): int
-    {
-        return $this->status;
-    }
-
-    public function data(): array
-    {
-        return $this->data;
-    }
-
-    public function message(): string
-    {
-        return $this->message;
-    }
-
-    public function enabled(): bool
-    {
-        return $this->enabled;
+        return $this->send();
     }
 
     public function token(): string
@@ -78,6 +65,36 @@ class Sentinel
         return $this->host;
     }
 
+    public function enabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function status(): int
+    {
+        return $this->status;
+    }
+
+    public function payload(): array
+    {
+        return $this->payload;
+    }
+
+    public function message(): string
+    {
+        return $this->message;
+    }
+
+    public function error(): ?LogHandler
+    {
+        return $this->error;
+    }
+
+    public function user(): ?string
+    {
+        return $this->user;
+    }
+
     public function toArray(): array
     {
         return [
@@ -85,16 +102,13 @@ class Sentinel
             'token' => $this->token(),
             'host' => $this->host(),
             'status' => $this->status(),
-            'data' => $this->data(),
             'message' => $this->message(),
         ];
     }
 
-    private function send(array $data): array
+    private function send(): array
     {
-
-        $this->data = $data;
-        $content = json_encode($data);
+        $content = json_encode($this->payload);
 
         $curl = curl_init($this->host);
         curl_setopt($curl, CURLOPT_HEADER, false);
@@ -123,7 +137,7 @@ class Sentinel
 
     }
 
-    private function user(): ?string
+    private function setUser(): ?string
     {
         $user = null;
 
@@ -142,25 +156,25 @@ class Sentinel
         return $user;
     }
 
-    private function json(LogHandler $error, ?string $user): array
+    private function setPayload(): array
     {
         return [
             'token' => $this->token,
-            'app' => $error->app(),
-            'env' => $error->env(),
+            'app' => $this->error->app(),
+            'env' => $this->error->env(),
             'laravel_version' => app()->version(),
             'php_version' => phpversion(),
             'is_auth' => auth()->check(),
-            'user' => $user,
-            'is_production' => $error->isProduction(),
-            'url' => $error->url(),
-            'method' => $error->method(),
-            'user_agent' => $error->userAgent(),
-            'ip' => $error->ip(),
-            'base_path' => $error->basePath(),
+            'user' => $this->user,
+            'is_production' => $this->error->isProduction(),
+            'url' => $this->error->url(),
+            'method' => $this->error->method(),
+            'user_agent' => $this->error->userAgent(),
+            'ip' => $this->error->ip(),
+            'base_path' => $this->error->basePath(),
             'date_time' => now(config('app.timezone'))->toDateTimeString(),
             'timezone' => config('app.timezone'),
-            'current' => $error->current()?->toArray(),
+            'current' => $this->error->current()?->toArray(),
         ];
     }
 }
