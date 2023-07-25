@@ -11,6 +11,10 @@ beforeEach(function () {
     config(['sentinel.token' => null]);
 });
 
+afterAll(function () {
+    createDotenv();
+});
+
 it('can use sentinel', function () {
     $instance = Sentinel::make();
 
@@ -26,11 +30,6 @@ it('can fail on installation', function () {
 });
 
 it('can fail on testing', function () {
-    artisan(SentinelTestCommand::class)
-        ->assertFailed();
-
-    createDotenv();
-
     artisan(SentinelTestCommand::class)
         ->assertFailed();
 });
