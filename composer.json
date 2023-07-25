@@ -1,7 +1,7 @@
 {
     "name": "kiwilan/sentinel-laravel",
     "description": "PHP package for Laravel to send errors to Sentinel.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "keywords": [
         "kiwilan",
         "laravel",
