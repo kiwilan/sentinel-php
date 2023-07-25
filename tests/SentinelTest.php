@@ -19,11 +19,3 @@ it('can register sentinel', function () {
     expect($message)->toBe('success');
     expect($status)->toBe(200);
 });
-
-// it('can fail log handler', function () {
-//     $dotenv = base_path('.env');
-//     unlink($dotenv);
-
-//     expect(fn () => Sentinel::register(new Exception('This is a test exception', 500)))->toThrow(Exception::class);
-//     createDotenv();
-// });

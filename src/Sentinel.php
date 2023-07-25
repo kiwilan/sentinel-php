@@ -9,7 +9,7 @@ use Throwable;
 
 class Sentinel
 {
-    public function __construct(
+    protected function __construct(
         protected ?string $token = null,
         protected ?string $host = null,
         protected bool $enabled = false,
@@ -106,47 +106,6 @@ class Sentinel
 
     private function send(): array
     {
-        if ($this->method === 'curl') {
-            return $this->postWithCurl();
-        }
-
-        if ($this->method === 'stream') {
-            return $this->postWithStream();
-        }
-
-        return $this->postWithGuzzle();
-    }
-
-    private function postWithGuzzle(): array
-    {
-        $client = new \GuzzleHttp\Client();
-
-        $response = $client->post($this->host, [
-            'headers' => [
-                'Content-type' => 'application/json',
-                'Accept' => 'application/json',
-            ],
-            'json' => $this->payload,
-        ]);
-
-        $this->status = $response->getStatusCode();
-        $body = $response->getBody()->getContents();
-        $this->message = $body;
-
-        if ($this->status !== 201 && $this->status !== 200 && $this->status !== 0) {
-            throw new Exception("Sentinel error {$this->status}: {$this->message}");
-        }
-
-        return [
-            'headers' => $response->getHeaders(),
-            'status' => $this->status,
-            'body' => $body,
-            'json' => json_decode($body, true),
-        ];
-    }
-
-    private function postWithStream(): array
-    {
         $options = [
             'http' => [
                 'header' => "Content-Type: application/json\r\n".
@@ -172,42 +131,6 @@ class Sentinel
             'status' => $this->status,
             'body' => $res,
             'json' => json_decode($res, true),
-        ];
-    }
-
-    private function postWithCurl(): array
-    {
-        $content = json_encode($this->payload);
-
-        $curl = curl_init($this->host);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'Content-type: application/json',
-            'Accept: application/json',
-        ]);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-        $json = curl_exec($curl);
-
-        $this->status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $headers = curl_getinfo($curl, CURLINFO_HEADER_OUT);
-        $message = json_decode($json, true);
-        $this->message = $message['message'] ?? $json;
-
-        if ($this->status !== 201 && $this->status !== 200 && $this->status !== 0) {
-            throw new Exception("Sentinel error {$this->status}: {$this->message}");
-        }
-
-        curl_close($curl);
-        $json = json_decode($json, true);
-
-        return [
-            'headers' => $headers,
-            'status' => $this->status,
-            'message' => $this->message,
-            'json' => $json,
         ];
     }
 
