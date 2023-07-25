@@ -8,16 +8,18 @@ beforeEach(function () {
 
 it('can generate log handler', function () {
     $exception = new \Exception('This is a test exception', 500);
-    // $error = LogHandler::make($exception);
 
+    $instance = Sentinel::make();
     $response = Sentinel::register($exception);
-    // dump($instance);
+    dump($instance);
+    dump($response);
 
     $status = $response['status'] ?? null;
     $message = $response['json']['message'] ?? null;
 
     expect($response)->toBeArray();
     expect($message)->toBe('success');
+    expect($status)->toBe(200);
 });
 
 // it('can fail log handler', function () {
