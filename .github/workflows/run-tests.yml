@@ -42,9 +42,9 @@ jobs:
       - name: Create .env
         run: |
           touch .env
-          echo SENTINEL_ENABLED_TEST=true >> .env
-          echo SENTINEL_HOST_TEST=${{ secrets.TEST_SENTINEL_HOST }} >> .env
-          echo SENTINEL_TOKEN_TEST=${{ secrets.TEST_SENTINEL_TOKEN }} >> .env
+          echo SENTINEL_ENABLED=true >> .env
+          echo SENTINEL_HOST=${{ secrets.TEST_SENTINEL_HOST }} >> .env
+          echo SENTINEL_TOKEN=${{ secrets.TEST_SENTINEL_TOKEN }} >> .env
 
       - name: Install dependencies
         run: |
