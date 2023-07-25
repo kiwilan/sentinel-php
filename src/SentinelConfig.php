@@ -24,6 +24,7 @@ class SentinelConfig
     {
         $config = config('sentinel.host');
         $env = env('SENTINEL_HOST');
+        dump(env('SENTINEL_HOST'));
 
         if (! empty($config)) {
             dump('config');
