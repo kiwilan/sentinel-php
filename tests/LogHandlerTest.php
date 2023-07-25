@@ -1,6 +1,7 @@
 <?php
 
 use Kiwilan\Sentinel\Log\LogHandler;
+use Kiwilan\Sentinel\SentinelConfig;
 
 it('can generate log handler', function () {
     $exception = new \Exception('This is a test exception', 500);
@@ -27,4 +28,14 @@ it('can generate log handler', function () {
     expect($message->trace())->toBeArray();
     expect($message->traceString())->toBeString();
     expect($message->toArray())->toBeArray();
+});
+
+it('can use sentinel config', function () {
+    $config = SentinelConfig::toArray();
+    $dotenv = dotenv();
+
+    expect($config)->toBeArray();
+    expect($config['enabled'])->toBeTrue();
+    expect($config['host'])->toBe($dotenv['host']);
+    expect($config['token'])->toBe($dotenv['token']);
 });

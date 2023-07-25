@@ -27,14 +27,10 @@ class SentinelTestCommand extends Command
             $token = config('sentinel.token');
         }
 
-        if (! $host) {
-            $this->error('Host is not defined');
-            throw new \Exception('Host is not defined');
-        }
+        if (! $host || ! $token) {
+            $this->error('Host or token is not defined');
 
-        if (! $token) {
-            $this->error('Token is not defined');
-            throw new \Exception('Token is not defined');
+            return self::FAILURE;
         }
 
         $this->info("Host: {$host}");
@@ -43,9 +39,7 @@ class SentinelTestCommand extends Command
         $this->info('Testing connection to Sentinel...');
         $response = Sentinel::register(new Exception('Test exception'));
 
-        $valid = $response['message'] ?? null;
-
-        if ($valid === 'success') {
+        if ($response['isValid']) {
             $this->comment('All done');
 
             return self::SUCCESS;

@@ -73,7 +73,7 @@ class SentinelInstallCommand extends Command
 
         $handler = file_get_contents($path);
 
-        if (str_contains($handler, 'Sentinel::make')) {
+        if (str_contains($handler, 'Sentinel::register')) {
             return;
         }
 

@@ -1,16 +1,25 @@
 <?php
 
 use Kiwilan\Sentinel\Facades\Sentinel;
-use Kiwilan\Sentinel\SentinelConfig;
+
+it('can use sentinel', function () {
+    $instance = Sentinel::make();
+
+    expect($instance)->toBeInstanceOf(\Kiwilan\Sentinel\Sentinel::class);
+    expect($instance->token())->toBeString();
+    expect($instance->host())->toBeString();
+    expect($instance->enabled())->toBeTrue();
+    expect($instance->status())->toBe(0);
+    expect($instance->payload())->toBeArray();
+    expect($instance->message())->toBe('Unknown error');
+    expect($instance->error())->toBeNull();
+    expect($instance->user())->toBeNull();
+    expect($instance->toArray())->toBeArray();
+});
 
 it('can register sentinel', function () {
     $exception = new \Exception('This is a test exception', 500);
-
-    // $instance = Sentinel::make();
-    // dump(SentinelConfig::toArray());
-    // dump($instance);
     $response = Sentinel::register($exception);
-    // dump($response);
 
     $status = $response['status'] ?? null;
     $message = $response['json']['message'] ?? null;

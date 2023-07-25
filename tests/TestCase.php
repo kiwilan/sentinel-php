@@ -3,11 +3,14 @@
 namespace Kiwilan\Sentinel\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\WithConsoleEvents;
 use Kiwilan\Sentinel\SentinelServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
+    use WithConsoleEvents;
+
     protected function setUp(): void
     {
         parent::setUp();

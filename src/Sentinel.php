@@ -18,7 +18,6 @@ class Sentinel
         protected string $message = 'Unknown error',
         protected ?LogHandler $error = null,
         protected ?string $user = null,
-        protected string $method = 'stream', // curl, stream, guzzle
     ) {
     }
 
@@ -44,7 +43,7 @@ class Sentinel
         $this->error = LogHandler::make($e);
         $this->user = $this->setUser();
 
-        if (empty($this->token)) {
+        if (! $this->token) {
             throw new Exception('Sentinel token is not set');
         }
 
@@ -53,7 +52,7 @@ class Sentinel
         return $this->send();
     }
 
-    public function token(): string
+    public function token(): ?string
     {
         return $this->token;
     }
@@ -116,21 +115,25 @@ class Sentinel
         ];
 
         $context = stream_context_create($options);
-        $res = file_get_contents($this->host, false, $context);
+        $body = file_get_contents($this->host, false, $context);
 
         $status = $http_response_header[0];
         $this->status = (int) substr($status, 9, 3);
-        $this->message = $res;
+        $this->message = $body;
 
-        if ($res === false) {
+        if ($body === false) {
             throw new Exception("Sentinel error {$this->status}: {$this->message}");
         }
+
+        $json = json_decode($body, true);
+        $message = $json['message'];
 
         return [
             'headers' => [],
             'status' => $this->status,
-            'body' => $res,
-            'json' => json_decode($res, true),
+            'body' => $body,
+            'json' => $json,
+            'isValid' => $message === 'success',
         ];
     }
 
