@@ -8,11 +8,9 @@ uses(TestCase::class)->in(__DIR__);
 function dotenv(): array
 {
     $dotenv = file_get_contents(getcwd().'/.env');
-    dump($dotenv);
 
     $dotenv = Dotenv::createMutable(getcwd());
     $data = $dotenv->load();
-    dump($data);
 
     $enabled = $data['SENTINEL_ENABLED_TEST'] ?? true;
     $host = $data['SENTINEL_HOST_TEST'] ?? 'http://app.sentinel.test';
@@ -50,4 +48,9 @@ function createDotenv()
     EOT;
 
     file_put_contents($dotenv, $content);
+
+    $dotenv = base_path('.env');
+    $content = file_get_contents($dotenv);
+
+    dump($content);
 }
