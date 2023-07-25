@@ -26,10 +26,14 @@ class SentinelConfig
         $env = env('SENTINEL_HOST');
 
         if (! empty($config)) {
+            dump('config');
+
             return $config;
         }
 
         if (! empty($env)) {
+            dump('env');
+
             return $env;
         }
 
