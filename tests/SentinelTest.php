@@ -7,7 +7,7 @@ beforeEach(function () {
     createDotenv();
 });
 
-it('can generate log handler', function () {
+it('can register sentinel', function () {
     $exception = new \Exception('This is a test exception', 500);
 
     // $instance = Sentinel::make();

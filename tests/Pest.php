@@ -4,6 +4,7 @@ use Dotenv\Dotenv;
 use Kiwilan\Sentinel\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
+createDotenv();
 
 function dotenv(): array
 {
@@ -23,41 +24,14 @@ function dotenv(): array
     ];
 }
 
-function deleteDotenv()
-{
-    $dotenv = base_path('.env');
-
-    if (file_exists($dotenv)) {
-        $content = file_get_contents($dotenv);
-        unlink($dotenv);
-    }
-}
-
 function createDotenv()
 {
-    deleteDotenv();
     $baseDotenv = getcwd().'/.env';
-    $dotenv = base_path('.env');
+    $dotenvPath = getcwd().'/vendor/orchestra/testbench-core/laravel/.env';
 
-    if (file_exists($dotenv)) {
-        unlink($dotenv);
+    if (file_exists($dotenvPath)) {
+        unlink($dotenvPath);
     }
-    copy($baseDotenv, $dotenv);
-    sleep(0.5);
 
-    // $host = dotenv()['host'];
-    // $token = dotenv()['token'];
-
-    // $content = <<<EOT
-    // SENTINEL_ENABLED=true
-    // SENTINEL_HOST={$host}
-    // SENTINEL_TOKEN={$token}
-    // EOT;
-
-    // file_put_contents($dotenv, $content);
-
-    // $dotenv = base_path('.env');
-    // $content = file_get_contents($dotenv);
-
-    // dump($content);
+    copy($baseDotenv, $dotenvPath);
 }

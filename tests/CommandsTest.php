@@ -3,7 +3,7 @@
 // use Illuminate\Support\Facades\Artisan;
 
 beforeEach(function () {
-    deleteDotenv();
+    createDotenv();
 });
 
 // it('can install', function () {

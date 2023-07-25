@@ -2,6 +2,10 @@
 
 use Kiwilan\Sentinel\Log\LogHandler;
 
+beforeEach(function () {
+    createDotenv();
+});
+
 it('can generate log handler', function () {
     $exception = new \Exception('This is a test exception', 500);
     $error = LogHandler::make($exception);
