@@ -50,6 +50,7 @@ jobs:
           echo SENTINEL_ENABLED_TEST=true >> .env
           echo SENTINEL_HOST_TEST=${{ secrets.TEST_SENTINEL_HOST }} >> .env
           echo SENTINEL_TOKEN_TEST=${{ secrets.TEST_SENTINEL_TOKEN }} >> .env
+          sleep 1
 
       - name: Execute tests
         run: vendor/bin/pest --ci
