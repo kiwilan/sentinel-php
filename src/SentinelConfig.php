@@ -51,4 +51,13 @@ class SentinelConfig
 
         return '';
     }
+
+    public static function toArray(): array
+    {
+        return [
+            'enabled' => self::enabled(),
+            'host' => self::host(),
+            'token' => self::token(),
+        ];
+    }
 }

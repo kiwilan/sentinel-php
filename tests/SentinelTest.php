@@ -1,6 +1,7 @@
 <?php
 
 use Kiwilan\Sentinel\Facades\Sentinel;
+use Kiwilan\Sentinel\SentinelConfig;
 
 beforeEach(function () {
     createDotenv();
@@ -10,6 +11,7 @@ it('can generate log handler', function () {
     $exception = new \Exception('This is a test exception', 500);
 
     $instance = Sentinel::make();
+    dump(SentinelConfig::toArray());
     dump($instance);
     // $response = Sentinel::register($exception);
     // dump($response);

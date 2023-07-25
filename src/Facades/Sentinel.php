@@ -5,6 +5,7 @@ namespace Kiwilan\Sentinel\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
+ * @method static self make() Get Sentinel instance
  * @method static array|false register(\Throwable $e) Register exception in Sentinel, `false` if Sentinel is disabled
  * @method static ?string token() Get Sentinel application token
  * @method static ?string host() Get Sentinel host
