@@ -2,10 +2,6 @@
 
 // use Illuminate\Support\Facades\Artisan;
 
-beforeEach(function () {
-    createDotenv();
-});
-
 // it('can install', function () {
 //     $dotenv = getcwd().'/.env';
 //     $testHandler = getcwd().'/tests/Exceptions/Handler.php';

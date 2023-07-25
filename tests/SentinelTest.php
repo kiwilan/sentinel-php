@@ -3,10 +3,6 @@
 use Kiwilan\Sentinel\Facades\Sentinel;
 use Kiwilan\Sentinel\SentinelConfig;
 
-beforeEach(function () {
-    createDotenv();
-});
-
 it('can register sentinel', function () {
     $exception = new \Exception('This is a test exception', 500);
 
