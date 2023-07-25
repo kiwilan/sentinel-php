@@ -22,4 +22,9 @@ class SentinelServiceProvider extends PackageServiceProvider
             ->hasCommand(SentinelInstallCommand::class)
             ->hasCommand(SentinelTestCommand::class);
     }
+
+    public function register()
+    {
+        $this->app->bind('sentinel-laravel', \Kiwilan\Sentinel\Sentinel::class);
+    }
 }
