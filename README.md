@@ -12,7 +12,7 @@
 
 PHP package for Laravel to send errors to [**Sentinel**](https://github.com/kiwilan/sentinel).
 
-> **Information**
+> **Note**
 >
 > [**Sentinel**](https://github.com/kiwilan/sentinel) is an open-source error tracking tool.
 
