@@ -34,6 +34,4 @@ function createDotenv()
     }
 
     copy($baseDotenv, $dotenvPath);
-
-    dump(file_get_contents($dotenvPath));
 }
