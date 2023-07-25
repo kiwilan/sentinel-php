@@ -18,7 +18,7 @@ class Sentinel
         protected string $message = 'Unknown error',
         protected ?LogHandler $error = null,
         protected ?string $user = null,
-        protected string $method = 'guzzle',
+        protected string $method = 'stream', // curl, stream, guzzle
     ) {
     }
 
