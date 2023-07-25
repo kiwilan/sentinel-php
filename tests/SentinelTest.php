@@ -8,6 +8,7 @@ beforeEach(function () {
 });
 
 it('can generate log handler', function () {
+    dump(base_path('.env'));
     $exception = new \Exception('This is a test exception', 500);
 
     $instance = Sentinel::make();

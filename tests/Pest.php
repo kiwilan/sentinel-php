@@ -43,9 +43,6 @@ function createDotenv()
     $host = dotenv()['host'];
     $token = dotenv()['token'];
 
-    dump($host);
-    dump($token);
-
     $content = <<<EOT
     SENTINEL_ENABLED=true
     SENTINEL_HOST={$host}

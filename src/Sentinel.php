@@ -31,9 +31,6 @@ class Sentinel
             host: "{$baseURL}/api/logs",
             enabled: SentinelConfig::enabled(),
         );
-        // dump(env('SENTINEL_TOKEN'));
-        // dump(SentinelConfig::token());
-        // dump($self);
 
         return $self;
     }
