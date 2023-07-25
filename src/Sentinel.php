@@ -44,7 +44,7 @@ class Sentinel
         $this->error = LogHandler::make($e);
         $this->user = $this->setUser();
 
-        if ($this->token === null) {
+        if (empty($this->token)) {
             throw new Exception('Sentinel token is not set');
         }
 

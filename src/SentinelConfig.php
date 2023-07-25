@@ -6,50 +6,17 @@ class SentinelConfig
 {
     public static function enabled(): bool
     {
-        $config = config('sentinel.enabled');
-        $env = env('SENTINEL_ENABLED');
-
-        if (! empty($config)) {
-            return $config;
-        }
-
-        if (! empty($env)) {
-            return $env;
-        }
-
-        return true;
+        return config('sentinel.enabled') ?? true;
     }
 
     public static function host(): string
     {
-        $config = config('sentinel.host');
-        $env = env('SENTINEL_HOST');
-
-        if (! empty($config)) {
-            return $config;
-        }
-
-        if (! empty($env)) {
-            return $env;
-        }
-
-        return 'http://app.sentinel.test';
+        return config('sentinel.host') ?? 'http://app.sentinel.test';
     }
 
-    public static function token(): string
+    public static function token(): ?string
     {
-        $config = config('sentinel.token');
-        $env = env('SENTINEL_TOKEN');
-
-        if (! empty($config)) {
-            return $config;
-        }
-
-        if (! empty($env)) {
-            return $env;
-        }
-
-        return '';
+        return config('sentinel.token') ?? null;
     }
 
     public static function toArray(): array
