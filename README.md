@@ -12,9 +12,9 @@
 
 PHP package for Laravel to send errors to [**Sentinel**](https://github.com/kiwilan/sentinel).
 
-> **Note**
+> **Information**
 >
-> Sentinel is an open-source error tracking tool. It's currently in development and not ready for production use.
+> [**Sentinel**](https://github.com/kiwilan/sentinel) is an open-source error tracking tool.
 
 ## Installation
 
