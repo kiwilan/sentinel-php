@@ -39,18 +39,17 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Install dependencies
-        run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" --no-interaction --no-update
-          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
-
       - name: Create .env
         run: |
           touch .env
           echo SENTINEL_ENABLED_TEST=true >> .env
           echo SENTINEL_HOST_TEST=${{ secrets.TEST_SENTINEL_HOST }} >> .env
           echo SENTINEL_TOKEN_TEST=${{ secrets.TEST_SENTINEL_TOKEN }} >> .env
-          sleep 1
+
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" --no-interaction --no-update
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Execute tests
         run: vendor/bin/pest --ci
