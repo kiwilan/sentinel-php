@@ -111,6 +111,7 @@ class Sentinel
                  "Accept: application/json\r\n",
                 'method' => 'POST',
                 'content' => json_encode($this->payload),
+                'ignore_errors' => true,
             ],
         ];
 
@@ -126,7 +127,11 @@ class Sentinel
         }
 
         $json = json_decode($body, true);
-        $message = $json['message'];
+        $message = $json['message'] ?? null;
+
+        if ($this->status !== 200) {
+            throw new Exception("Sentinel error {$this->status}: {$this->message}");
+        }
 
         return [
             'headers' => [],
