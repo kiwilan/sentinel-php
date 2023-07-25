@@ -11,7 +11,6 @@ it('can generate log handler', function () {
     // $error = LogHandler::make($exception);
 
     $response = Sentinel::register($exception);
-    dump($response);
     // dump($instance);
 
     $status = $response['status'] ?? null;

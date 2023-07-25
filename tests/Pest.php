@@ -45,5 +45,7 @@ function createDotenv()
     SENTINEL_TOKEN={$token}
     EOT;
 
+    dump($content);
+
     file_put_contents($dotenv, $content);
 }
