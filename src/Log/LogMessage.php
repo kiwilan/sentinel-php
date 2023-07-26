@@ -7,7 +7,7 @@ use Throwable;
 class LogMessage
 {
     protected function __construct(
-        readonly protected int $code,
+        readonly protected int|string $code,
         readonly protected string $file,
         readonly protected int $line,
         readonly protected string $message,
@@ -36,7 +36,7 @@ class LogMessage
         );
     }
 
-    public function code(): int
+    public function code(): int|string
     {
         return $this->code;
     }
