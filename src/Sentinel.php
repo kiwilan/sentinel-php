@@ -15,7 +15,9 @@ class Sentinel
         protected bool $enabled = false,
         protected int $status = 0,
         protected array $payload = [],
-        protected string $message = 'Unknown error',
+        protected array $body = [],
+        protected string $json = '',
+        protected ?string $message = 'Unknown error',
         protected ?LogHandler $error = null,
         protected ?string $user = null,
     ) {
@@ -25,13 +27,12 @@ class Sentinel
     {
         $baseURL = SentinelConfig::host();
         $token = SentinelConfig::token();
-        $self = new self(
+
+        return new self(
             token: $token,
             host: "{$baseURL}/api/logs",
             enabled: SentinelConfig::enabled(),
         );
-
-        return $self;
     }
 
     public function register(Throwable $e): array|false
@@ -77,6 +78,16 @@ class Sentinel
         return $this->payload;
     }
 
+    public function body(): array
+    {
+        return $this->body;
+    }
+
+    public function json(): string
+    {
+        return $this->json;
+    }
+
     public function message(): string
     {
         return $this->message;
@@ -118,27 +129,32 @@ class Sentinel
         $context = stream_context_create($options);
         $body = file_get_contents($this->host, false, $context);
 
-        $status = $http_response_header[0];
-        $this->status = (int) substr($status, 9, 3);
-        $this->message = $body;
+        $response = [
+            'headers' => $http_response_header,
+            'status' => (int) substr($http_response_header[0] ?? '0', 9, 3),
+            'body' => json_decode($body, true),
+            'json' => $body,
+        ];
+
+        $this->status = $response['status'];
+        $this->body = $response['body'];
+        $this->json = $response['json'];
+        $this->message = $this->body['message'] ?? null;
 
         if ($body === false) {
-            throw new Exception("Sentinel error {$this->status}: {$this->message}");
+            throw new Exception("Sentinel error {$this->status}: {$this->json}");
         }
 
-        $json = json_decode($body, true);
-        $message = $json['message'] ?? null;
-
         if ($this->status !== 200) {
-            throw new Exception("Sentinel error {$this->status}: {$this->message}");
+            $json = ! empty($this->message) ? $this->message : $this->json;
+            error_log("Sentinel error {$this->status}: {$json}");
+
+            throw new Exception("Sentinel error {$this->status}: {$json}");
         }
 
         return [
-            'headers' => [],
-            'status' => $this->status,
-            'body' => $body,
-            'json' => $json,
-            'isValid' => $message === 'success',
+            ...$response,
+            'isValid' => $this->message === 'success',
         ];
     }
 
