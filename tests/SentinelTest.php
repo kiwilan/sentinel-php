@@ -22,7 +22,7 @@ it('can register sentinel', function () {
     $response = Sentinel::register($exception);
 
     $status = $response['status'] ?? null;
-    $message = $response['json']['message'] ?? null;
+    $message = $response['body']['message'] ?? null;
 
     expect($response)->toBeArray();
     expect($message)->toBe('success');
