@@ -193,7 +193,7 @@ class Sentinel
             'user_agent' => $this->error->userAgent(),
             'ip' => $this->error->ip(),
             'base_path' => $this->error->basePath(),
-            'date_time' => now(config('app.timezone'))->toDateTimeString(),
+            'datetime' => now(config('app.timezone'))->toDateTimeString(),
             'timezone' => config('app.timezone'),
             'current' => $this->error->current()?->toArray(),
         ];
