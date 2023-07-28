@@ -2,6 +2,12 @@
 
 All notable changes to `sentinel-laravel` will be documented in this file.
 
+## 0.0.3 - 2023-07-28
+
+- Add `throwErrors` for `register` method
+- Add some properties to `Sentinel` class
+- Add more tests
+
 ## 0.0.22 - 2023-07-27
 
 - Change `date_time` to `datetime`
