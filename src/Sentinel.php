@@ -4,6 +4,7 @@ namespace Kiwilan\Sentinel;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Kiwilan\Sentinel\Log\LogHandler;
 use Throwable;
 
@@ -13,8 +14,10 @@ class Sentinel
         protected ?string $token = null,
         protected ?string $host = null,
         protected bool $enabled = false,
+        protected bool $throwErrors = false,
         protected int $status = 0,
         protected array $payload = [],
+        protected array $response = [],
         protected array $body = [],
         protected string $json = '',
         protected ?string $message = 'Unknown error',
@@ -35,8 +38,10 @@ class Sentinel
         );
     }
 
-    public function register(Throwable $e): array|false
+    public function register(Throwable $e, bool $throwErrors = false): array|false
     {
+        $this->throwErrors = $throwErrors;
+
         if (! $this->enabled) {
             return false;
         }
@@ -45,7 +50,7 @@ class Sentinel
         $this->user = $this->setUser();
 
         if (! $this->token) {
-            throw new Exception('Sentinel token is not set');
+            $this->pushError('Sentinel token is not set', 500);
         }
 
         $this->payload = $this->setPayload();
@@ -68,6 +73,11 @@ class Sentinel
         return $this->enabled;
     }
 
+    public function throwErrors(): bool
+    {
+        return $this->throwErrors;
+    }
+
     public function status(): int
     {
         return $this->status;
@@ -76,6 +86,11 @@ class Sentinel
     public function payload(): array
     {
         return $this->payload;
+    }
+
+    public function response(): array
+    {
+        return $this->response;
     }
 
     public function body(): array
@@ -127,35 +142,53 @@ class Sentinel
         ];
 
         $context = stream_context_create($options);
-        $body = file_get_contents($this->host, false, $context);
+        $http_response_header = [];
+        $body = '';
 
-        $response = [
+        try {
+            $body = file_get_contents($this->host, false, $context);
+        } catch (\Throwable $th) {
+            $this->pushError("Sentinel error {$th->getCode()}: {$th->getMessage()}", $th->getCode());
+        }
+
+        $this->response = [
             'headers' => $http_response_header,
             'status' => (int) substr($http_response_header[0] ?? '0', 9, 3),
             'body' => json_decode($body, true),
             'json' => $body,
         ];
 
-        $this->status = $response['status'];
-        $this->body = $response['body'];
-        $this->json = $response['json'];
-        $this->message = $this->body['message'] ?? null;
+        $this->status = $this->response['status'] ?: 0;
+        $this->body = $this->response['body'] ?: [];
+        $this->json = $this->response['json'] ?: '';
+        $this->message = $this->body['message'] ?: null;
 
         if ($body === false) {
-            throw new Exception("Sentinel error {$this->status}: {$this->json}");
+            $this->pushError("Sentinel error {$this->status}: {$this->json}", $this->status);
         }
 
         if ($this->status !== 200) {
             $json = ! empty($this->message) ? $this->message : $this->json;
-            error_log("Sentinel error {$this->status}: {$json}");
-
-            throw new Exception("Sentinel error {$this->status}: {$json}");
+            $this->pushError("Sentinel error {$this->status}: {$json}", $this->status);
         }
 
         return [
-            ...$response,
+            ...$this->response,
             'isValid' => $this->message === 'success',
         ];
+    }
+
+    private function pushError(string $message, int|string $status): void
+    {
+        if ($this->throwErrors) {
+            throw new Exception($message, $status);
+        }
+
+        error_log("{$message} ({$status})");
+        Log::error($message, [
+            'status' => $status,
+            'response' => $this->response,
+        ]);
     }
 
     private function setUser(): ?string

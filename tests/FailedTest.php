@@ -33,3 +33,29 @@ it('can fail on testing', function () {
     artisan(SentinelTestCommand::class)
         ->assertFailed();
 });
+
+it('can fail on sentinel', function () {
+    config(['sentinel.enabled' => true]);
+    config(['sentinel.host' => null]);
+    config(['sentinel.token' => null]);
+
+    $exception = new \Exception('This is a test exception', 500);
+    expect(fn () => Sentinel::register($exception, true))->toThrow(\Exception::class);
+});
+
+it('can fail on sentinel host', function () {
+    config(['sentinel.enabled' => true]);
+    config(['sentinel.host' => 'host']);
+    config(['sentinel.token' => 'token']);
+
+    $exception = new \Exception('This is a test exception', 500);
+    expect(fn () => Sentinel::register($exception, true))->toThrow(\Exception::class);
+});
+
+it('can fail on sentinel token', function () {
+    config(['sentinel.enabled' => true]);
+    config(['sentinel.token' => 'token']);
+
+    $exception = new \Exception('This is a test exception', 500);
+    expect(fn () => Sentinel::register($exception, true))->toThrow(\Exception::class);
+});

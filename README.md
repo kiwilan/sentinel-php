@@ -12,7 +12,7 @@
 
 PHP package for Laravel to send errors to [**Sentinel**](https://github.com/kiwilan/sentinel).
 
-> [!Note]\
+> [!NOTE]\
 >
 > [**Sentinel**](https://github.com/kiwilan/sentinel) is an open-source error tracking tool.
 
@@ -75,6 +75,11 @@ class Handler extends ExceptionHandler
   }
 }
 ```
+
+If you want to debug your installation, you can set `true` to `throwErrors`: `\Kiwilan\Sentinel\Facades\Sentinel::register($e, throwErrors: true)`.
+
+> [!WARNING]\
+> Do not use `throwErrors` in production, if Sentinel instance is not available, your application will crash.
 
 ## Verify your installation
 

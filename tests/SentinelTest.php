@@ -9,9 +9,13 @@ it('can use sentinel', function () {
     expect($instance->token())->toBeString();
     expect($instance->host())->toBeString();
     expect($instance->enabled())->toBeTrue();
+    expect($instance->throwErrors())->toBeFalse();
     expect($instance->status())->toBe(0);
     expect($instance->payload())->toBeArray();
+    expect($instance->response())->toBeArray();
+    expect($instance->body())->toBeArray();
     expect($instance->message())->toBe('Unknown error');
+    expect($instance->json())->toBe('');
     expect($instance->error())->toBeNull();
     expect($instance->user())->toBeNull();
     expect($instance->toArray())->toBeArray();
