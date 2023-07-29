@@ -33,10 +33,25 @@ This is the contents of the published config file:
 
 ```php
 return [
-  'enabled' => env('SENTINEL_ENABLED', true),
-  'host' => env('SENTINEL_HOST', 'http://app.sentinel.test'),
-  'token' => env('SENTINEL_TOKEN'),
+    /**
+     * If you want to disable Sentinel, set `SENTINEL_ENABLED` to `false`.
+     */
+    'enabled' => env('SENTINEL_ENABLED', true),
+    /**
+     * Sentinel host where your application is registered.
+     */
+    'host' => env('SENTINEL_HOST', 'http://app.sentinel.test'),
+    /**
+     * Token is used to authenticate your application with Sentinel.
+     */
+    'token' => env('SENTINEL_TOKEN'),
+    /**
+     * If you want to throw Sentinel errors for debug, set `SENTINEL_DEBUG` to `true`.
+     * WARNING: do not use it on production.
+     */
+    'debug' => env('SENTINEL_DEBUG', false),
 ];
+
 ```
 
 ## Usage
@@ -99,6 +114,10 @@ Route::get('/debug-sentinel', function () {
 ```
 
 ## Testing
+
+```bash
+cp .env.example .env
+```
 
 ```bash
 composer test

@@ -19,12 +19,18 @@ class SentinelConfig
         return config('sentinel.token') ?? null;
     }
 
+    public static function debug(): bool
+    {
+        return config('sentinel.debug') ?? false;
+    }
+
     public static function toArray(): array
     {
         return [
             'enabled' => self::enabled(),
             'host' => self::host(),
             'token' => self::token(),
+            'debug' => self::debug(),
         ];
     }
 }

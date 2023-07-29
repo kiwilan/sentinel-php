@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static self make() Get Sentinel instance.
- * @method static array|false register(\Throwable $e, bool $throwErrors = false) Register exception in Sentinel, return `false` if Sentinel is disabled. If you want to throw Sentinel errors for debug, set `$throwErrors` to `true`.
+ * @method static array|false register(\Throwable $e) Register exception in Sentinel, return `false` if Sentinel is disabled.
  * @method static ?string token() Get Sentinel application token.
  * @method static ?string host() Get Sentinel host.
  * @method static bool enabled() Know if Sentinel is enabled.

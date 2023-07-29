@@ -9,6 +9,7 @@ beforeEach(function () {
     config(['sentinel.enabled' => false]);
     config(['sentinel.host' => null]);
     config(['sentinel.token' => null]);
+    config(['sentinel.debug' => true]);
 });
 
 afterAll(function () {
@@ -38,15 +39,17 @@ it('can fail on sentinel', function () {
     config(['sentinel.enabled' => true]);
     config(['sentinel.host' => null]);
     config(['sentinel.token' => null]);
+    config(['sentinel.debug' => true]);
 
     $exception = new \Exception('This is a test exception', 500);
-    expect(fn () => Sentinel::register($exception, true))->toThrow(\Exception::class);
+    expect(fn () => Sentinel::register($exception))->toThrow(\Exception::class);
 });
 
 it('can fail on sentinel host', function () {
     config(['sentinel.enabled' => true]);
     config(['sentinel.host' => 'host']);
     config(['sentinel.token' => 'token']);
+    config(['sentinel.debug' => true]);
 
     $exception = new \Exception('This is a test exception', 500);
     expect(fn () => Sentinel::register($exception, true))->toThrow(\Exception::class);
@@ -55,6 +58,7 @@ it('can fail on sentinel host', function () {
 it('can fail on sentinel token', function () {
     config(['sentinel.enabled' => true]);
     config(['sentinel.token' => 'token']);
+    config(['sentinel.debug' => true]);
 
     $exception = new \Exception('This is a test exception', 500);
     expect(fn () => Sentinel::register($exception, true))->toThrow(\Exception::class);

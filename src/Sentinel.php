@@ -35,13 +35,12 @@ class Sentinel
             token: $token,
             host: "{$baseURL}/api/logs",
             enabled: SentinelConfig::enabled(),
+            throwErrors: SentinelConfig::debug(),
         );
     }
 
-    public function register(Throwable $e, bool $throwErrors = false): array|false
+    public function register(Throwable $e): array|false
     {
-        $this->throwErrors = $throwErrors;
-
         if (! $this->enabled) {
             return false;
         }
