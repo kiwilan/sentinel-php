@@ -26,7 +26,7 @@ composer require kiwilan/sentinel-laravel
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="sentinel-laravel-config"
+php artisan vendor:publish --tag="sentinel-config"
 ```
 
 This is the contents of the published config file:
