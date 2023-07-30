@@ -25,11 +25,6 @@ class SentinelServiceProvider extends PackageServiceProvider
 
     public function bootingPackage()
     {
-        // $this->app->bind('sentinel-laravel', function () {
-        //     return Sentinel::make();
-        // });
-
-        // $this->app->bind('sentinel-laravel', \Kiwilan\Sentinel\Sentinel::class);
         $this->app->bind('sentinel', fn () => \Kiwilan\Sentinel\Sentinel::make());
     }
 }
