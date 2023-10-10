@@ -157,10 +157,10 @@ class Sentinel
             'json' => $body,
         ];
 
-        $this->status = $this->response['status'] ?: 0;
-        $this->body = $this->response['body'] ?: [];
-        $this->json = $this->response['json'] ?: '';
-        $this->message = $this->body['message'] ?: null;
+        $this->status = $this->response['status'];
+        $this->body = $this->response['body'] ?? [];
+        $this->json = $this->response['json'];
+        $this->message = $this->body['message'] ?? null;
 
         if ($body === false) {
             $this->pushError("Sentinel error {$this->status}: {$this->json}", $this->status);
