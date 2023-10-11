@@ -5,7 +5,6 @@
 
 [![Latest Version on Packagist][version-src]](version-href)
 [![GitHub Tests Action Status][tests-src]](tests-href)
-[![GitHub Code Style Action Status][style-src]](style-href)
 [![Total Downloads][downloads-src]](downloads-href)
 [![License][license-src]][license-href]
 [![codecov][codecov-src]][codecov-href]
