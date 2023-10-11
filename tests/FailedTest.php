@@ -3,6 +3,7 @@
 use Kiwilan\Sentinel\Commands\SentinelInstallCommand;
 use Kiwilan\Sentinel\Commands\SentinelTestCommand;
 use Kiwilan\Sentinel\Facades\Sentinel;
+use Kiwilan\Sentinel\Sentinel as SentinelSentinel;
 use function Pest\Laravel\artisan;
 
 beforeEach(function () {
@@ -17,7 +18,8 @@ afterAll(function () {
 });
 
 it('can use sentinel', function () {
-    $instance = Sentinel::make();
+    $instance = new SentinelSentinel();
+    $instance->setup();
 
     expect($instance->enabled())->toBeFalse();
     expect($instance->host())->toBeString();
@@ -42,7 +44,7 @@ it('can fail on sentinel', function () {
     config(['sentinel.debug' => true]);
 
     $exception = new \Exception('This is a test exception', 500);
-    expect(fn () => Sentinel::register($exception))->toThrow(\Exception::class);
+    expect(fn () => Sentinel::register($exception, true))->toThrow(\Exception::class);
 });
 
 it('can fail on sentinel host', function () {

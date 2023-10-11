@@ -4,13 +4,14 @@ namespace Kiwilan\Sentinel;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Kiwilan\Sentinel\Log\LogHandler;
 use Throwable;
 
 class Sentinel
 {
-    protected function __construct(
+    public function __construct(
         protected ?string $token = null,
         protected ?string $host = null,
         protected bool $enabled = false,
@@ -22,37 +23,56 @@ class Sentinel
         protected string $json = '',
         protected ?string $message = 'Unknown error',
         protected ?LogHandler $error = null,
+        protected bool $isAuth = false,
         protected ?string $user = null,
     ) {
     }
 
-    public static function make(): self
+    /**
+     * Setup Sentinel.
+     */
+    public function setup(): self
     {
         $baseURL = SentinelConfig::host();
-        $token = SentinelConfig::token();
+        $this->token = SentinelConfig::token();
+        $this->host = "{$baseURL}/api/logs";
+        $this->enabled = SentinelConfig::enabled();
 
-        return new self(
-            token: $token,
-            host: "{$baseURL}/api/logs",
-            enabled: SentinelConfig::enabled(),
-            throwErrors: SentinelConfig::debug(),
-        );
+        return $this;
     }
 
-    public function register(Throwable $e): array|false
+    /**
+     * Register exception in Sentinel, return `false` if Sentinel is disabled.
+     *
+     * @param  \Throwable  $e From `app/Exceptions/Handler.php`
+     * @param  bool  $throwErrors If you want to throw Sentinel errors for debug, set `$throwErrors` to `true`.
+     */
+    public function register(Throwable $e, bool $throwErrors = false): array|false
     {
-        if (! $this->enabled) {
+        $this->setup();
+
+        try {
+            $this->throwErrors = $throwErrors;
+
+            if (! $this->enabled) {
+                return false;
+            }
+
+            $this->error = LogHandler::make($e);
+            $this->user = $this->setUser();
+
+            if (! $this->token) {
+                $this->pushError('Sentinel token is not set', 500);
+            }
+
+            $this->payload = $this->setPayload();
+        } catch (\Throwable $th) {
+            if ($this->throwErrors) {
+                throw $th;
+            }
+
             return false;
         }
-
-        $this->error = LogHandler::make($e);
-        $this->user = $this->setUser();
-
-        if (! $this->token) {
-            $this->pushError('Sentinel token is not set', 500);
-        }
-
-        $this->payload = $this->setPayload();
 
         return $this->send();
     }
@@ -157,10 +177,10 @@ class Sentinel
             'json' => $body,
         ];
 
-        $this->status = $this->response['status'];
-        $this->body = $this->response['body'] ?? [];
-        $this->json = $this->response['json'];
-        $this->message = $this->body['message'] ?? null;
+        $this->status = $this->response['status'] ?: 0;
+        $this->body = $this->response['body'] ?: [];
+        $this->json = $this->response['json'] ?: '';
+        $this->message = $this->body['message'] ?: null;
 
         if ($body === false) {
             $this->pushError("Sentinel error {$this->status}: {$this->json}", $this->status);
@@ -194,16 +214,21 @@ class Sentinel
     {
         $user = null;
 
-        if (auth()->check()) {
-            $id = auth()->user()->getAuthIdentifierName();
+        try {
+            $this->isAuth = Auth::check();
 
-            /** @var Model */
-            $auth = auth()->user();
-            $user = $auth->toArray()[$id] ?? null;
+            if (Auth::check()) {
+                $id = Auth::user()?->getAuthIdentifierName();
 
-            if ($user) {
-                $user = "{$id}: {$user}";
+                /** @var Model */
+                $auth = auth()->user();
+                $user = $auth->toArray()[$id] ?? null;
+
+                if ($user) {
+                    $user = "{$id}: {$user}";
+                }
             }
+        } catch (\Throwable $th) {
         }
 
         return $user;
@@ -217,7 +242,7 @@ class Sentinel
             'env' => $this->error->env(),
             'laravel_version' => app()->version(),
             'php_version' => phpversion(),
-            'is_auth' => auth()->check(),
+            'is_auth' => $this->isAuth,
             'user' => $this->user,
             'is_production' => $this->error->isProduction(),
             'url' => $this->error->url(),

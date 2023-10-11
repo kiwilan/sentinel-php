@@ -1,9 +1,11 @@
 <?php
 
 use Kiwilan\Sentinel\Facades\Sentinel;
+use Kiwilan\Sentinel\Sentinel as SentinelSentinel;
 
 it('can use sentinel', function () {
-    $instance = Sentinel::make();
+    $instance = new SentinelSentinel();
+    $instance->setup();
 
     expect($instance)->toBeInstanceOf(\Kiwilan\Sentinel\Sentinel::class);
     expect($instance->token())->toBeString();
