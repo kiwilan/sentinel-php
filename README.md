@@ -150,8 +150,6 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [version-href]: https://packagist.org/packages/kiwilan/sentinel-laravel
 [tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/sentinel-laravel/run-tests.yml?branch=main&label=tests&style=flat&labelColor=18181b
 [tests-href]: https://github.com/kiwilan/sentinel-laravel/actions?query=workflow%3Arun-tests+branch%3Amain
-[style-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/sentinel-laravel/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat&labelColor=18181b
-[style-href]: https://github.com/kiwilan/sentinel-laravel/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain
 [downloads-src]: https://img.shields.io/packagist/dt/kiwilan/sentinel-laravel.svg?style=flat&colorA=18181B&colorB=777BB4
 [downloads-href]: https://packagist.org/packages/kiwilan/sentinel-laravel
 [license-src]: https://img.shields.io/github/license/kiwilan/sentinel-laravel.svg?style=flat&colorA=18181B&colorB=777BB4
