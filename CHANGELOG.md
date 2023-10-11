@@ -2,6 +2,10 @@
 
 All notable changes to `sentinel-laravel` will be documented in this file.
 
+## v0.0.33 - 2023-10-11
+
+- Bug fixes
+
 ## v0.0.32 - 2023-10-10
 
 - Fix `message` array key into `body`
