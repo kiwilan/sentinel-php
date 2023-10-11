@@ -143,19 +143,19 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [<img src="https://user-images.githubusercontent.com/48261459/201463225-0a5a084e-df15-4b11-b1d2-40fafd3555cf.svg" height="120rem" width="100%" />](https://github.com/kiwilan)
 
-[php-version-src]: https://img.shields.io/static/v1?style=flat-square&label=PHP&message=v8.1&color=777BB4&logo=php&logoColor=ffffff&labelColor=18181b
+[php-version-src]: https://img.shields.io/static/v1?style=flat&label=PHP&message=v8.1&color=777BB4&logo=php&logoColor=ffffff&labelColor=18181b
 [php-version-href]: https://www.php.net/
-[laravel-version-src]: https://img.shields.io/static/v1?style=flat-square&label=Laravel&message=v10&color=FF2D20&logo=laravel&logoColor=ffffff&labelColor=18181b
+[laravel-version-src]: https://img.shields.io/static/v1?style=flat&label=Laravel&message=v10&color=FF2D20&logo=laravel&logoColor=ffffff&labelColor=18181b
 [laravel-version-href]: https://laravel.com/
-[version-src]: https://img.shields.io/packagist/v/kiwilan/sentinel-laravel.svg?style=flat-square&colorA=18181B&colorB=777BB4
+[version-src]: https://img.shields.io/packagist/v/kiwilan/sentinel-laravel.svg?style=flat&colorA=18181B&colorB=777BB4
 [version-href]: https://packagist.org/packages/kiwilan/sentinel-laravel
-[tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/sentinel-laravel/run-tests.yml?branch=main&label=tests&style=flat-square&labelColor=18181b
+[tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/sentinel-laravel/run-tests.yml?branch=main&label=tests&style=flat&labelColor=18181b
 [tests-href]: https://github.com/kiwilan/sentinel-laravel/actions?query=workflow%3Arun-tests+branch%3Amain
-[style-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/sentinel-laravel/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square&labelColor=18181b
+[style-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/sentinel-laravel/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat&labelColor=18181b
 [style-href]: https://github.com/kiwilan/sentinel-laravel/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain
-[downloads-src]: https://img.shields.io/packagist/dt/kiwilan/sentinel-laravel.svg?style=flat-square&colorA=18181B&colorB=777BB4
+[downloads-src]: https://img.shields.io/packagist/dt/kiwilan/sentinel-laravel.svg?style=flat&colorA=18181B&colorB=777BB4
 [downloads-href]: https://packagist.org/packages/kiwilan/sentinel-laravel
-[license-src]: https://img.shields.io/github/license/kiwilan/sentinel-laravel.svg?style=flat-square&colorA=18181B&colorB=777BB4
+[license-src]: https://img.shields.io/github/license/kiwilan/sentinel-laravel.svg?style=flat&colorA=18181B&colorB=777BB4
 [license-href]: https://github.com/kiwilan/sentinel-laravel/blob/main/README.md
-[codecov-src]: https://codecov.io/gh/kiwilan/sentinel-laravel/branch/main/graph/badge.svg?token=hytpoIyU92
+[codecov-src]: https://img.shields.io/codecov/c/gh/kiwilan/sentinel-laravel/main?style=flat&colorA=18181B&colorB=777BB4
 [codecov-href]: https://codecov.io/gh/kiwilan/sentinel-laravel
